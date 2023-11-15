@@ -1,3 +1,0 @@
-git rm --cached -r .
-git commit -m "Apply .gitignore and untrack files"
-git push origin main
