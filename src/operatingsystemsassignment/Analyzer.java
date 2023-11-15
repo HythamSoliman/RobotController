@@ -23,12 +23,11 @@ public class Analyzer extends Thread {
 		}
 	}
 
-	public synchronized void consume() 
-	{
+	public synchronized void consume() {
 		if (task_queue.size() != 0) {            // condition checking if task_queue is not empty 
 			Task task = task_queue.poll();          // takes out the element at the front of the queue and returns it, assigning it as "task"
 			// creating the result, which takes the Id and c from the task
-			Result r = new Result(task.getRandomID(), task.getRandomComplexity(), Math.pow((1 - task.getRandomComplexity()), analysisConstant));
+			Result r = new Result(task.getTaskID(), task.getTaskComplexity(), Math.pow((1 - task.getTaskComplexity()), analysisConstant));
 			if (actuate_queue.size() != capacity) {       // if actuate_queue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
@@ -36,7 +35,7 @@ public class Analyzer extends Thread {
 				actuate_queue.add(r);   // add result to q2 
 			}
 			try {
-				Thread.sleep((int)(task.getRandomComplexity())*100);
+				Thread.sleep((int)(task.getTaskComplexity())*100);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();

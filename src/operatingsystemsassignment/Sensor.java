@@ -37,19 +37,20 @@ public class Sensor extends Thread {
 		int result = k-1;
 		return result;
 	}
-	public synchronized void produce() {   // produce method for sensor;
+	// produce method for sensor
+	public synchronized void produce() {
 		// ANSI escape codes for used colors
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-		String redColor = ConsoleStyles.redColor;
+		String errorColor = ConsoleStyles.errorColor;
 		// complexity a single real-valued number corresponding to the com-plexity of the task (0.1 <= c <= 0.5)
 		double c;
 		// generates number of tasks = poisson distribution
 		int number_tasks = getPoisson(lambda);
 		if (number_tasks > capacity) {
 			System.out.println(
-				redColor + "!!! Sensor !!! num of tasks[" + blueColor + number_tasks + resetColor + redColor + "]"
-				+ " > CAPACITY[" + blueColor + capacity + resetColor + redColor + "]"
+				errorColor + "!!! Sensor !!! num of tasks[" + blueColor + number_tasks + resetColor + errorColor + "]"
+				+ " > CAPACITY[" + blueColor + capacity + resetColor + errorColor + "]"
 				+ resetColor
 			);
 		}
@@ -74,16 +75,16 @@ public class Sensor extends Thread {
 
 class Task {
 	private int taskID;
-	private double randomComplexity;
+	private double taskComplexity;
 
-	public Task(int taskID, double randomComplexity) {   // passing task ID and complexity
-		this.randomComplexity = randomComplexity;
+	public Task(int taskID, double taskComplexity) {   // passing task ID and complexity
+		this.taskComplexity = taskComplexity;
 		this.taskID = taskID;
 	}
-	public double getRandomComplexity() {    // getters for complexity and id
-		return this.randomComplexity;
+	public double getTaskComplexity() {    // getters for complexity and id
+		return this.taskComplexity;
 	}
-	public int getRandomID() {
+	public int getTaskID() {
 		return this.taskID;
 	}
 }

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Controller {	
 	// ANSI escape codes for used colors
-	static String redColor = ConsoleStyles.redColor;
+	static String errorColor = ConsoleStyles.errorColor;
 	static String greenColor = ConsoleStyles.greenColor;
 	static String blueColor = ConsoleStyles.blueColor;
 	static String resetColor = ConsoleStyles.resetColor;
@@ -38,7 +38,7 @@ public class Controller {
 		System.out.print(greenColor + ":\t\t" + resetColor);
 	    double pos0value = pos0.nextDouble();
 
-		System.out.print(clearScreen); // Clear the screen
+		// System.out.print(clearScreen); // Clear the screen
 		System.out.println("\n\nThank you for passing the values.");
 		System.out.print("\tlambda [" + blueColor + boldStyle);
 		System.out.print(lambdavalue);
@@ -75,7 +75,7 @@ public class Controller {
         	Thread.sleep(5_000);
         }
         catch(InterruptedException e) {
-        	System.out.println(redColor + "Interrupted all" + resetColor);
+        	System.out.println(errorColor + "Interrupted all" + resetColor);
         }
         System.exit(0);
 	}
