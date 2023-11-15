@@ -1,12 +1,13 @@
 package operatingsystemsassignment;
 
 import operatingsystemsassignment.ConsoleStyles;
+import operatingsystemsassignment.Settings;
 import java.util.Queue;
 
 public class Analyzer extends Thread {
 	public Queue<Task> task_queue;
 	public Queue<Result> actuate_queue;
-	public int capacity = 5;
+	private int capacity = Settings.Parameters.capacity;
 	public int currentpos = 0;
 	public int analysisConstant;
 

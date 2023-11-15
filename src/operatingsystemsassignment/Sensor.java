@@ -1,13 +1,14 @@
 package operatingsystemsassignment;
 
 import operatingsystemsassignment.ConsoleStyles;
+import operatingsystemsassignment.Settings;
 import java.util.Queue;
 
 // sensor extends from thread
 public class Sensor extends Thread {
 	// tasks queue
 	private Queue<Task> tqueue;
-	private int capacity = 5;
+	private int capacity = Settings.Parameters.capacity;
 	private int taskid=0;
 	public int lambda;
 

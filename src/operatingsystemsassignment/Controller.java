@@ -1,6 +1,7 @@
 package operatingsystemsassignment;
 
 import operatingsystemsassignment.ConsoleStyles;
+import operatingsystemsassignment.Settings;
 
 import java.util.LinkedList;
 import java.util.Locale;
@@ -9,10 +10,11 @@ import java.util.Scanner;
 
 public class Controller {	
 	// ANSI escape codes for used colors
+	static String infoColor = ConsoleStyles.infoColor;
 	static String errorColor = ConsoleStyles.errorColor;
 	static String greenColor = ConsoleStyles.greenColor;
-	static String blueColor = ConsoleStyles.blueColor;
-	static String resetColor = ConsoleStyles.resetColor;
+	static String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+	static String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 	static String boldStyle = ConsoleStyles.boldStyle;
 	static String resetBold = ConsoleStyles.resetBold;
 	static String clearScreen = ConsoleStyles.clearScreen;
@@ -33,24 +35,30 @@ public class Controller {
 	    pos0.useLocale(Locale.UK);
 	    // getting input from user for initial position
 		System.out.print(greenColor + "Enter a starting position for the robot between ");
-        System.out.print(blueColor + boldStyle + "0" + resetBold);
-        System.out.print(greenColor + " and " + blueColor + boldStyle + "1" + resetColor + resetBold);
+        System.out.print(blueColor + "0" + resetColor);
+        System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
 		System.out.print(greenColor + ":\t\t" + resetColor);
 	    double pos0value = pos0.nextDouble();
 
 		// System.out.print(clearScreen); // Clear the screen
 		System.out.println("\n\nThank you for passing the values.");
-		System.out.print("\tlambda [" + blueColor + boldStyle);
+		System.out.print("\tlambda [" + blueColor);
 		System.out.print(lambdavalue);
-		System.out.print(resetColor + resetBold + "]");
+		System.out.print(resetColor + "]");
 
-		System.out.print("\tConstant [" + blueColor + boldStyle);
+		System.out.print("\tConstant [" + blueColor);
 		System.out.print(analysisConstantValue);
-		System.out.print(resetColor + resetBold + "]");
+		System.out.print(resetColor + "]");
 
-		System.out.print("\tX Value [" + blueColor + boldStyle);
+		System.out.print("\tPos-0 Value [" + blueColor);
 		System.out.print(pos0value);
-		System.out.print(resetColor + resetBold + "]");
+		System.out.print(resetColor + "]");
+
+		System.out.println("\n\nAdditional Info:");
+		System.out.print(infoColor + "\tSettings Capacity[" + blueColor);
+		System.out.print(Settings.Parameters.capacity);
+		System.out.print(infoColor + "]" + resetColor);
+		
 		
 		System.out.println(greenColor + boldStyle + "\n\nStarting My Work...\n\n" + resetColor + resetColor);
 
