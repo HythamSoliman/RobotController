@@ -26,6 +26,7 @@ public class Controller {
 	    Scanner lambda = new Scanner(System.in);                  // getting input for lambda from user 
 	    System.out.print(greenColor + "Enter a double value for lambda:\t\t\t\t\t" + resetColor);
 	    int lambdavalue = lambda.nextInt();
+
 	    
 	    Scanner analysisConstant = new Scanner(System.in);                 // getting input from user for analysisconstant 
 	    System.out.print(greenColor + "Enter a value for the analysis constant:\t\t\t\t" + resetColor);
@@ -39,6 +40,8 @@ public class Controller {
         System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
 		System.out.print(greenColor + ":\t\t" + resetColor);
 	    double pos0value = pos0.nextDouble();
+		if (pos0value > 1) {pos0value = 1;}
+		if (pos0value < 0) {pos0value = 0;}
 
 		// System.out.print(clearScreen); // Clear the screen
 		System.out.println("\n\nThank you for passing the values.");

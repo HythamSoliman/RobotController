@@ -4,16 +4,14 @@ import operatingsystemsassignment.ConsoleStyles;
 import operatingsystemsassignment.Settings;
 import java.util.Queue;
 
-// sensor extends from thread
 public class Sensor extends Thread {
-	// tasks queue
-	private Queue<Task> tqueue;
+	private Queue<Task> taskQueue;
 	private int capacity = Settings.Parameters.queueCapacity;
 	private int taskid=0;
-	public int lambda;
+	private int lambda;
 
-	public Sensor(Queue<Task> tqueue, int lambda) { // sensor constructor
-		this.tqueue = tqueue;
+	public Sensor(Queue<Task> taskQueue, int lambda) { // sensor constructor
+		this.taskQueue = taskQueue;
 		this.lambda = lambda;  // user input 
 	}
 	public int getLambda() {    // get method for lambda from user input
@@ -40,7 +38,6 @@ public class Sensor extends Thread {
 	}
 	// produce method for sensor
 	public synchronized void produce() {
-		// ANSI escape codes for used colors
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 		String errorColor = ConsoleStyles.errorColor;
@@ -57,12 +54,12 @@ public class Sensor extends Thread {
 		}
 		// for loop that goes until the value generated from the poisson distribution
 		for (int i = 0; i < number_tasks; i++) {
-			if (tqueue.size() <= capacity) {  		// condition to check if queue is not full
+			if (taskQueue.size() <= capacity) {  		// condition to check if queue is not full
 				taskid++;             				// increment task id to give unique task id
 				c = Math.random()/4;               	// compute value for c
 				System.out.println(("** Task id [" + blueColor + taskid + resetColor + "] Complexity:[" + blueColor + c + resetColor + "]"));
 				Task task = new Task(taskid, c);	// create the tasks passing them their task id and c
-				tqueue.add(task);                	// add task to the queue 
+				taskQueue.add(task);                	// add task to the queue 
 			}
 		}
 		try {

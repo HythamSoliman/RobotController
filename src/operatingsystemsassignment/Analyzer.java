@@ -5,11 +5,11 @@ import operatingsystemsassignment.Settings;
 import java.util.Queue;
 
 public class Analyzer extends Thread {
-	public Queue<Task> task_queue;
-	public Queue<Result> actuate_queue;
+	private Queue<Task> task_queue;
+	private Queue<Result> actuate_queue;
 	private int capacity = Settings.Parameters.queueCapacity;
-	public int currentpos = 0;
-	public int analysisConstant;
+	private int currentpos = 0;
+	private int analysisConstant;
 
 	public Analyzer(Queue<Task> task_queue, Queue<Result> actuate_queue, int analysisConstant) {   // analyzer constructor
 		this.task_queue = task_queue;
