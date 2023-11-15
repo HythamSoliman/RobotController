@@ -5,6 +5,7 @@ docs/
 
 **/*.rs.bk
 
+*.pages
 *.class
 *.bak*
 *.lck*
