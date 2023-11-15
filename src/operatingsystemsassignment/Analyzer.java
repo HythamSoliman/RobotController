@@ -5,15 +5,15 @@ import operatingsystemsassignment.Settings;
 import java.util.Queue;
 
 public class Analyzer extends Thread {
-	private Queue<Task> task_queue;
-	private Queue<Result> actuate_queue;
+	private Queue<Task> taskQueue;
+	private Queue<Result> actuateQueue;
 	private int capacity = Settings.Parameters.queueCapacity;
 	private int currentpos = 0;
 	private int analysisConstant;
 
-	public Analyzer(Queue<Task> task_queue, Queue<Result> actuate_queue, int analysisConstant) {   // analyzer constructor
-		this.task_queue = task_queue;
-		this.actuate_queue = actuate_queue;
+	public Analyzer(Queue<Task> taskQueue, Queue<Result> actuateQueue, int analysisConstant) {   // analyzer constructor
+		this.taskQueue = taskQueue;
+		this.actuateQueue = actuateQueue;
 		this.analysisConstant = analysisConstant;
 	}
 
@@ -25,15 +25,15 @@ public class Analyzer extends Thread {
 	}
 
 	public synchronized void consume() {
-		if (task_queue.size() != 0) {            // condition checking if task_queue is not empty 
-			Task task = task_queue.poll();          // takes out the element at the front of the queue and returns it, assigning it as "task"
+		if (taskQueue.size() != 0) {            // condition checking if taskQueue is not empty 
+			Task task = taskQueue.poll();          // takes out the element at the front of the queue and returns it, assigning it as "task"
 			// creating the result, which takes the Id and c from the task
 			Result r = new Result(task.getTaskID(), task.getTaskComplexity(), Math.pow((1 - task.getTaskComplexity()), analysisConstant));
-			if (actuate_queue.size() != capacity) {       // if actuate_queue is not full
+			if (actuateQueue.size() != capacity) {       // if actuateQueue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 				System.out.println(("** Task id [" + blueColor + (int)r.getID() + resetColor + "] analyzing ..."));
-				actuate_queue.add(r);   // add result to q2 
+				actuateQueue.add(r);   // add result to q2 
 			}
 			try {
 				Thread.sleep((int)(task.getTaskComplexity())*100);

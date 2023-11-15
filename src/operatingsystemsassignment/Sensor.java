@@ -63,9 +63,9 @@ public class Sensor extends Thread {
 			}
 		}
 		try {
-			Thread.sleep(1_000);             // sleep time 
+			// it is the time to sleep
+			Thread.sleep(1_000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

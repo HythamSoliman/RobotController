@@ -6,12 +6,11 @@ import java.util.Queue;
 
 public class Actuator extends Thread {
 
-	public Queue<Result> qu2 = new LinkedList<>();
+	public Queue<Result> actuateQueue = new LinkedList<>();
 	private Object produceLock;
 	private Object consumeLock;
 	public double currentpos;
 	public double newpos;
-	public double x;
 	public double rem;
 	public double value;
 	public boolean movingRight = true;
@@ -21,17 +20,17 @@ public class Actuator extends Thread {
 		while (true) {
 			consume();
 			try {
+				// it is the time to sleep
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	// actuating constructor
-	public Actuator(Queue<Result> qu2, Object produceLock, Object consumeLock, double pos0) {
-		this.qu2 = qu2;
+	public Actuator(Queue<Result> actuateQueue, Object produceLock, Object consumeLock, double pos0) {
+		this.actuateQueue = actuateQueue;
 		this.produceLock = produceLock;
 		this.consumeLock = consumeLock;
 		this.pos0 = pos0;
@@ -64,8 +63,8 @@ public class Actuator extends Thread {
 	public synchronized void consume() {
         while (true) {
             synchronized (this.consumeLock) {
-                if (qu2.size() != 0) {
-                	Result r = qu2.poll();
+                if (actuateQueue.size() != 0) {
+                	Result r = actuateQueue.poll();
 					// to set the initial position from user input as the first position of the robot
 					if (r.getID() == 1) {
                 		if (r.movedist + pos0 <= 1) {
