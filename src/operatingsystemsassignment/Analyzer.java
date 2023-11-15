@@ -1,5 +1,8 @@
 package operatingsystemsassignment;
+
+import operatingsystemsassignment.ConsoleStyles;
 import java.util.Queue;
+
 public class Analyzer extends Thread {
 	public Queue<Task> q1;
 	public Queue<Result> q2;
@@ -24,10 +27,13 @@ public class Analyzer extends Thread {
 	{
 		if (q1.size() != 0) {            // condition checking if q1 is not empty 
 			Task t = q1.poll();          // takes out the element at the front of the queue and returns it, assigning it as "t"
-			Result r = new Result(t.getRandomID(), t.getRandomComplexity(), Math.pow((1 - t.getRandomComplexity()), analysisConstant)); // creating the result, which takes the Id and c from the task 
-			if (q2.size() != capacity) {       // if q2 is not full 
+			// creating the result, which takes the Id and c from the task
+			Result r = new Result(t.getRandomID(), t.getRandomComplexity(), Math.pow((1 - t.getRandomComplexity()), analysisConstant));
+			if (q2.size() != capacity) {       // if q2 is not full
+				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+				System.out.println(("** Task id [" + blueColor + (int)r.getID() + resetColor + "] analyzing ..."));
 				q2.add(r);   // add result to q2 
-				System.out.println("analyzing task " + r.getID());
 			}
 			try {
 				Thread.sleep((int)(t.getRandomComplexity())*100);

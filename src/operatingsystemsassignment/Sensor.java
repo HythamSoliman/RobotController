@@ -1,5 +1,6 @@
 package operatingsystemsassignment;
 
+import operatingsystemsassignment.ConsoleStyles;
 import java.util.Queue;
 
 public class Sensor extends Thread {  // sensor extends from thread
@@ -25,7 +26,6 @@ public class Sensor extends Thread {  // sensor extends from thread
 		double L = Math.exp(-(lambda));
 		double p = 1.0;
 		int k = 0;
-
 		do {
 			k++;
 			p *= Math.random();
@@ -34,14 +34,18 @@ public class Sensor extends Thread {  // sensor extends from thread
 		return result;
 	}
 	public synchronized void produce() {   // produce method for sensor;
+		// ANSI escape codes for used colors
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 		double c;  // complexity 
-		for (int i = 0;i < getPoisson(lambda);i++) {    // for loop that goes until the value generated from the poisson distribution, generates number of tasks = poisson distribution
-			if (q.size() <= capacity) {  // condition to check if queue is not full
-				taskid++;             // increment task id to give unique task id
-				c=Math.random()/4;               // compute value for c
-				Task task = new Task(taskid, c);      // create the tasks passing them their task id and c
-				q.add(task);                           // add task to the queue 
-				System.out.println(("Task id:" + taskid + " Task Complexity:" + c));
+		// for loop that goes until the value generated from the poisson distribution, generates number of tasks = poisson distribution
+		for (int i = 0;i < getPoisson(lambda);i++) {
+			if (q.size() <= capacity) {  			// condition to check if queue is not full
+				taskid++;             				// increment task id to give unique task id
+				c = Math.random()/4;               	// compute value for c
+				System.out.println(("** Task id [" + blueColor + taskid + resetColor + "] Complexity:[" + blueColor + c + resetColor + "]"));
+				Task task = new Task(taskid, c);	// create the tasks passing them their task id and c
+				q.add(task);                      	// add task to the queue 
 			}
 		}
 		try {

@@ -1,27 +1,59 @@
 package operatingsystemsassignment;
 
+import operatingsystemsassignment.ConsoleStyles;
+
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class Controller {	
+	// ANSI escape codes for used colors
+	static String redColor = ConsoleStyles.redColor;
+	static String greenColor = ConsoleStyles.greenColor;
+	static String blueColor = ConsoleStyles.blueColor;
+	static String resetColor = ConsoleStyles.resetColor;
+	static String boldStyle = ConsoleStyles.boldStyle;
+	static String resetBold = ConsoleStyles.resetBold;
+	static String clearScreen = ConsoleStyles.clearScreen;
 
 	public static void main(String[] args) throws InterruptedException {
 		
+		System.out.print(clearScreen); // Clear the screen
+
 	    Scanner lambda = new Scanner(System.in);                  // getting input for lambda from user 
-	    System.out.println("Enter a double value for lambda: ");
+	    System.out.print(greenColor + "Enter a double value for lambda:\t\t\t\t\t" + resetColor);
 	    int lambdavalue = lambda.nextInt();
 	    
 	    Scanner analysisConstant = new Scanner(System.in);                 // getting input from user for analysisconstant 
-	    System.out.println("Enter a value for the analysis constant: ");
+	    System.out.print(greenColor + "Enter a value for the analysis constant:\t\t\t\t" + resetColor);
 	    int analysisConstantValue = analysisConstant.nextInt();
 	    
 	    Scanner pos0 = new Scanner(System.in);
 	    pos0.useLocale(Locale.UK);
-	    System.out.println("Enter a starting positon for the robot between 0 and 1: "); // getting input from user for initial position
+	    // getting input from user for initial position
+		System.out.print(greenColor + "Enter a starting position for the robot between ");
+        System.out.print(blueColor + boldStyle + "0" + resetBold);
+        System.out.print(greenColor + " and " + blueColor + boldStyle + "1" + resetColor + resetBold);
+		System.out.print(greenColor + ":\t\t" + resetColor);
 	    double pos0value = pos0.nextDouble();
+
+		System.out.print(clearScreen); // Clear the screen
+		System.out.println("\n\nThank you for passing the values.");
+		System.out.print("\tlambda [" + blueColor + boldStyle);
+		System.out.print(lambdavalue);
+		System.out.print(resetColor + resetBold + "]");
+
+		System.out.print("\tConstant [" + blueColor + boldStyle);
+		System.out.print(analysisConstantValue);
+		System.out.print(resetColor + resetBold + "]");
+
+		System.out.print("\tX Value [" + blueColor + boldStyle);
+		System.out.print(pos0value);
+		System.out.print(resetColor + resetBold + "]");
 		
+		System.out.println(greenColor + boldStyle + "\n\nStarting My Work...\n\n" + resetColor + resetColor);
+
 		Queue<Task> queue1 = new LinkedList<>();    // creating instances of the queues 
 		Queue<Result> queue2 = new LinkedList<>();
 		
@@ -43,7 +75,7 @@ public class Controller {
         	Thread.sleep(5_000);
         }
         catch(InterruptedException e) {
-        	System.out.println("Interrupted all");
+        	System.out.println(redColor + "Interrupted all" + resetColor);
         }
         System.exit(0);
 	}

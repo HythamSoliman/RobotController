@@ -1,5 +1,6 @@
 package operatingsystemsassignment;
 
+import operatingsystemsassignment.ConsoleStyles;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -28,7 +29,8 @@ public class Actuator extends Thread {
 		}
 	}
 	
-	public Actuator(Queue<Result> qu2, Object produceLock, Object consumeLock, double pos0) {  // actuating constructor
+	// actuating constructor
+	public Actuator(Queue<Result> qu2, Object produceLock, Object consumeLock, double pos0) {
 		this.qu2 = qu2;
 		this.produceLock = produceLock;
 		this.consumeLock = consumeLock;
@@ -38,25 +40,41 @@ public class Actuator extends Thread {
     public double getPos0() {
     	return this.pos0;
     }
+	public void printedMsg(int TaskId, Double Complexity, boolean first, Double Distance, Double CurPos, Double NewPos ) {
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String redColor = ConsoleStyles.redColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 
-	public synchronized void consume()   // synchronized consume method 
-    {
+		System.out.print("** Task id [" + blueColor + TaskId + resetColor + "]");
+		System.out.print(" Complexity:[" + blueColor + Complexity + resetColor + "]");
+		if (first) {
+			System.out.println(" Robot first move with result");
+		} else {
+			System.out.println(" Robot next moving with result");
+		}
+		System.out.println("\t\tdistance to move:\t[" + redColor + Distance + resetColor + "]");
+		System.out.println("\t\told position:\t\t[" + redColor + CurPos + resetColor + "]");
+		System.out.println("\t\tnew position:\t\t[" + redColor + NewPos + resetColor + "]\n");
+	}
+
+	// synchronized consume method 
+	public synchronized void consume() {
         while (true) {
-            synchronized (this.consumeLock)
-            {
+            synchronized (this.consumeLock) {
                 if (qu2.size() != 0) {
                 	Result r = qu2.poll();
-                	if (r.getID() == 1) {                  // to set the initial position from user input as the first position of the robot
+					// to set the initial position from user input as the first position of the robot
+					if (r.getID() == 1) {
                 		if (r.movedist + pos0 <= 1) {
                     			value = r.movedist + pos0;
                     			newpos = value;
-                    			System.out.println("Robot moving." + " task id {" + r.getID() + "}" + "task complexity {" +  r.getComp() + "} result (distance to move) {" + r.getMoveDist() + "} old position: {" + getPos0() + "} new position: {" + newpos + "}" );
+								printedMsg((int)r.getID(), r.getComp(), true, r.getMoveDist(), getPos0(), newpos);
                     			currentpos = newpos;
-						} else  {
+						} else {
 							rem = -1 + (r.movedist + pos0);
 							value = 1 - rem;
 							newpos = value;
-							System.out.println("Robot moving." + " task id {" + r.getID() + "}" + "task complexity {" +  r.getComp() + "} result (distance to move) {" + r.getMoveDist() + "} old position: {" + getPos0() + "} new position: {" + newpos + "}" );
+							printedMsg((int)r.getID(), r.getComp(), true, r.getMoveDist(), getPos0(), newpos);
 							currentpos = newpos;
 							movingRight = false;
                 		}
@@ -85,8 +103,9 @@ public class Actuator extends Thread {
 								movingRight = true;
 							}
 						}
-						System.out.println("Robot moving." + " task id {" + r.getID() + "}" + "task complexity {" +  r.getComp() + "} result (distance to move) {" + r.getMoveDist() + "} old position: {" + currentpos + "} new position: {" + newpos + "}" );
-						currentpos = newpos; // updating the current position as the new one for the next one 
+						printedMsg((int)r.getID(), r.getComp(), false, r.getMoveDist(), currentpos, newpos);
+						// updating the current position as the new one for the next one 
+						currentpos = newpos;
 					}
 				}
 				synchronized (this.produceLock) {
