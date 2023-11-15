@@ -6,7 +6,5 @@
  *
  */
 module operatingsystemsassignment {
-	
-	requires java.desktop; 
-	
+	requires java.desktop;
 }
