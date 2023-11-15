@@ -1,6 +1,6 @@
 package operatingsystemsassignment;
 public class Settings {
     public class Parameters {
-        public static int capacity = 5;
+        public static int queueCapacity = 5;
     }
 }

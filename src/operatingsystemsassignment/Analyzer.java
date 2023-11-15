@@ -7,7 +7,7 @@ import java.util.Queue;
 public class Analyzer extends Thread {
 	public Queue<Task> task_queue;
 	public Queue<Result> actuate_queue;
-	private int capacity = Settings.Parameters.capacity;
+	private int capacity = Settings.Parameters.queueCapacity;
 	public int currentpos = 0;
 	public int analysisConstant;
 

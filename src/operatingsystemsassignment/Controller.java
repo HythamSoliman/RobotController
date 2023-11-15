@@ -56,7 +56,7 @@ public class Controller {
 
 		System.out.println("\n\nAdditional Info:");
 		System.out.print(infoColor + "\tSettings Capacity[" + blueColor);
-		System.out.print(Settings.Parameters.capacity);
+		System.out.print(Settings.Parameters.queueCapacity);
 		System.out.print(infoColor + "]" + resetColor);
 		
 		

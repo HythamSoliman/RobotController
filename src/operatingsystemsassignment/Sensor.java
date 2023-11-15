@@ -8,7 +8,7 @@ import java.util.Queue;
 public class Sensor extends Thread {
 	// tasks queue
 	private Queue<Task> tqueue;
-	private int capacity = Settings.Parameters.capacity;
+	private int capacity = Settings.Parameters.queueCapacity;
 	private int taskid=0;
 	public int lambda;
 
