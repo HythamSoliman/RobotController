@@ -1,0 +1,11 @@
+brew install --cask oracle-jdk
+
+brew install java
+brew info java
+sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+
+brew install openjdk@11
+brew info java
+sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk
+
+java -version
