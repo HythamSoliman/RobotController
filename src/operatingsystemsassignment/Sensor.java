@@ -3,14 +3,16 @@ package operatingsystemsassignment;
 import operatingsystemsassignment.ConsoleStyles;
 import java.util.Queue;
 
-public class Sensor extends Thread {  // sensor extends from thread
-	private Queue<Task> q;
+// sensor extends from thread
+public class Sensor extends Thread {
+	// tasks queue
+	private Queue<Task> tqueue;
 	private int capacity = 5;
 	private int taskid=0;
 	public int lambda;
 
-	public Sensor(Queue<Task> q, int lambda) { // sensor constructor
-		this.q = q;
+	public Sensor(Queue<Task> tqueue, int lambda) { // sensor constructor
+		this.tqueue = tqueue;
 		this.lambda = lambda;  // user input 
 	}
 	public int getLambda() {    // get method for lambda from user input
@@ -22,7 +24,9 @@ public class Sensor extends Thread {  // sensor extends from thread
 			produce();
 		}
 	}
-	public int getPoisson(int lambda) {         // poisson distribution equation 
+
+	// poisson distribution equation
+	public int getPoisson(int lambda) {
 		double L = Math.exp(-(lambda));
 		double p = 1.0;
 		int k = 0;
@@ -37,15 +41,26 @@ public class Sensor extends Thread {  // sensor extends from thread
 		// ANSI escape codes for used colors
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-		double c;  // complexity 
-		// for loop that goes until the value generated from the poisson distribution, generates number of tasks = poisson distribution
-		for (int i = 0;i < getPoisson(lambda);i++) {
-			if (q.size() <= capacity) {  			// condition to check if queue is not full
+		String redColor = ConsoleStyles.redColor;
+		// complexity a single real-valued number corresponding to the com-plexity of the task (0.1 <= c <= 0.5)
+		double c;
+		// generates number of tasks = poisson distribution
+		int number_tasks = getPoisson(lambda);
+		if (number_tasks > capacity) {
+			System.out.println(
+				redColor + "!!! Sensor !!! num of tasks[" + blueColor + number_tasks + resetColor + redColor + "]"
+				+ " > CAPACITY[" + blueColor + capacity + resetColor + redColor + "]"
+				+ resetColor
+			);
+		}
+		// for loop that goes until the value generated from the poisson distribution
+		for (int i = 0; i < number_tasks; i++) {
+			if (tqueue.size() <= capacity) {  		// condition to check if queue is not full
 				taskid++;             				// increment task id to give unique task id
 				c = Math.random()/4;               	// compute value for c
 				System.out.println(("** Task id [" + blueColor + taskid + resetColor + "] Complexity:[" + blueColor + c + resetColor + "]"));
 				Task task = new Task(taskid, c);	// create the tasks passing them their task id and c
-				q.add(task);                      	// add task to the queue 
+				tqueue.add(task);                	// add task to the queue 
 			}
 		}
 		try {
@@ -58,17 +73,17 @@ public class Sensor extends Thread {  // sensor extends from thread
 }
 
 class Task {
-	private int randomID;
+	private int taskID;
 	private double randomComplexity;
 
-	public Task(int randomID, double randomComplexity) {   // passing task the ID and complexity
+	public Task(int taskID, double randomComplexity) {   // passing task ID and complexity
 		this.randomComplexity = randomComplexity;
-		this.randomID = randomID;
+		this.taskID = taskID;
 	}
 	public double getRandomComplexity() {    // getters for complexity and id
 		return this.randomComplexity;
 	}
 	public int getRandomID() {
-		return this.randomID;
+		return this.taskID;
 	}
 }

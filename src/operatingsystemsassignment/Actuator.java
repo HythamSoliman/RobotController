@@ -42,19 +42,22 @@ public class Actuator extends Thread {
     }
 	public void printedMsg(int TaskId, Double Complexity, boolean first, Double Distance, Double CurPos, Double NewPos ) {
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
-		String redColor = ConsoleStyles.redColor + ConsoleStyles.boldStyle;
+		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-
-		System.out.print("** Task id [" + blueColor + TaskId + resetColor + "]");
-		System.out.print(" Complexity:[" + blueColor + Complexity + resetColor + "]");
+		String move_string = "";
 		if (first) {
-			System.out.println(" Robot first move with result");
+			move_string = " Robot first move.";
 		} else {
-			System.out.println(" Robot next moving with result");
+			move_string = " Robot next moving.";
 		}
-		System.out.println("\t\tdistance to move:\t[" + redColor + Distance + resetColor + "]");
-		System.out.println("\t\told position:\t\t[" + redColor + CurPos + resetColor + "]");
-		System.out.println("\t\tnew position:\t\t[" + redColor + NewPos + resetColor + "]\n");
+		System.out.println(
+			resetColor + "** "
+			+ greenColor + move_string
+			+ resetColor + " Task id [" + blueColor + TaskId + resetColor + "] Complexity:[" + blueColor + Complexity + resetColor + "]"
+			+ " distance:[" + greenColor + Distance + resetColor + "]"
+			+ " old position:[" + greenColor + CurPos + resetColor + "]"
+			+ " new position:[" + greenColor + NewPos + resetColor + "]"
+		);
 	}
 
 	// synchronized consume method 

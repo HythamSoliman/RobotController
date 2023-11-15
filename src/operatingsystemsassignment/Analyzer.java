@@ -4,15 +4,15 @@ import operatingsystemsassignment.ConsoleStyles;
 import java.util.Queue;
 
 public class Analyzer extends Thread {
-	public Queue<Task> q1;
-	public Queue<Result> q2;
+	public Queue<Task> task_queue;
+	public Queue<Result> actuate_queue;
 	public int capacity = 5;
 	public int currentpos = 0;
 	public int analysisConstant;
 
-	public Analyzer(Queue<Task> q1, Queue<Result> q2, int analysisConstant) {   // analyzer constructor
-		this.q1 = q1;
-		this.q2 = q2;
+	public Analyzer(Queue<Task> task_queue, Queue<Result> actuate_queue, int analysisConstant) {   // analyzer constructor
+		this.task_queue = task_queue;
+		this.actuate_queue = actuate_queue;
 		this.analysisConstant = analysisConstant;
 	}
 
@@ -25,22 +25,24 @@ public class Analyzer extends Thread {
 
 	public synchronized void consume() 
 	{
-		if (q1.size() != 0) {            // condition checking if q1 is not empty 
-			Task t = q1.poll();          // takes out the element at the front of the queue and returns it, assigning it as "t"
+		if (task_queue.size() != 0) {            // condition checking if task_queue is not empty 
+			Task task = task_queue.poll();          // takes out the element at the front of the queue and returns it, assigning it as "task"
 			// creating the result, which takes the Id and c from the task
-			Result r = new Result(t.getRandomID(), t.getRandomComplexity(), Math.pow((1 - t.getRandomComplexity()), analysisConstant));
-			if (q2.size() != capacity) {       // if q2 is not full
+			Result r = new Result(task.getRandomID(), task.getRandomComplexity(), Math.pow((1 - task.getRandomComplexity()), analysisConstant));
+			if (actuate_queue.size() != capacity) {       // if actuate_queue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 				System.out.println(("** Task id [" + blueColor + (int)r.getID() + resetColor + "] analyzing ..."));
-				q2.add(r);   // add result to q2 
+				actuate_queue.add(r);   // add result to q2 
 			}
 			try {
-				Thread.sleep((int)(t.getRandomComplexity())*100);
+				Thread.sleep((int)(task.getRandomComplexity())*100);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		} else {
+
 		}
 	}
 }
