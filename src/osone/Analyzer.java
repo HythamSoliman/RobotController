@@ -17,8 +17,9 @@ public class Analyzer extends Thread {
 		this.analysisConstant = analysisConstant;
 	}
 
+	// run method for analyzer
 	@Override
-	public void run() {     // run method for analyzer
+	public void run() {
 		while (true) {
 			consume();
 		}
@@ -31,10 +32,11 @@ public class Analyzer extends Thread {
 			int taskSensorID = task.getTaskSensorID();
 			// creating the result, which takes the Id and c from the task
 			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Math.pow((1 - taskComplexity), analysisConstant));
+			// Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Math.sqrt(1 / taskComplexity));
 			if (actuateQueue.size() != capacity) {       // if actuateQueue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-				System.out.println(("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID [" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ..."));
+				System.out.println(("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ..."));
 				actuateQueue.add(result);   // add result to q2 
 			}
 			try {

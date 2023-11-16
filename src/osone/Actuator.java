@@ -39,21 +39,16 @@ public class Actuator extends Thread {
     public double getPos0() {
     	return this.pos0;
     }
-	public void printedMsg(int SensorId, int TaskId, Double Complexity, boolean first, Double Distance, Double CurPos, Double NewPos ) {
+	public void printedMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-		String move_string = "";
-		if (first) {
-			move_string = " Robot first move.";
-		} else {
-			move_string = " Robot next moving.";
-		}
+		String move_string =  "Robot moving.";
 		System.out.println(
 			resetColor + "** "
 			+ greenColor + move_string
-			+ resetColor + " Sensor id [" + blueColor + SensorId + resetColor + "]"
-			+ " Task id [" + blueColor + TaskId + resetColor + "] Complexity:[" + blueColor + Complexity + resetColor + "]"
+			+ resetColor + " Sensor ID[" + blueColor + SensorId + resetColor + "]"
+			+ " Task ID[" + blueColor + TaskId + resetColor + "] Complexity[" + blueColor + Complexity + resetColor + "]"
 			+ " distance:[" + greenColor + Distance + resetColor + "]"
 			+ " old position:[" + greenColor + CurPos + resetColor + "]"
 			+ " new position:[" + greenColor + NewPos + resetColor + "]"
@@ -75,7 +70,6 @@ public class Actuator extends Thread {
 									analysisResult.getResultSensorID(), 
 									analysisResult.getResultTaskID(),
 									analysisResult.getResultComplexity(),
-									true,
 									analysisResult.getResultMoveDist(),
 									getPos0(),
 									newpos
@@ -89,7 +83,6 @@ public class Actuator extends Thread {
 								analysisResult.getResultSensorID(),
 								analysisResult.getResultTaskID(),
 								analysisResult.getResultComplexity(),
-								true,
 								analysisResult.getResultMoveDist(),
 								getPos0(),
 								newpos
@@ -125,7 +118,6 @@ public class Actuator extends Thread {
 							analysisResult.getResultSensorID(),
 							analysisResult.getResultTaskID(),
 							analysisResult.getResultComplexity(),
-							false,
 							analysisResult.getResultMoveDist(),
 							currentpos,
 							newpos

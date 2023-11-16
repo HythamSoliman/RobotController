@@ -28,9 +28,10 @@ public class Controller {
 	    int lambdavalue = lambda.nextInt();
 
 	    
-	    Scanner analysisConstant = new Scanner(System.in);                 // getting input from user for analysisconstant 
-	    System.out.print(greenColor + "Enter a value for the analysis constant:\t\t\t\t" + resetColor);
-	    int analysisConstantValue = analysisConstant.nextInt();
+	    // Scanner analysisConstant = new Scanner(System.in);                 // getting input from user for analysisconstant 
+	    // System.out.print(greenColor + "Enter a value for the analysis constant:\t\t\t\t" + resetColor);
+	    // int analysisConstantValue = analysisConstant.nextInt();
+		int analysisConstantValue = 10;
 	    
 	    Scanner pos0 = new Scanner(System.in);
 	    pos0.useLocale(Locale.UK);
@@ -49,9 +50,9 @@ public class Controller {
 		System.out.print(lambdavalue);
 		System.out.print(resetColor + "]");
 
-		System.out.print("\tConstant [" + blueColor);
-		System.out.print(analysisConstantValue);
-		System.out.print(resetColor + "]");
+		// System.out.print("\tConstant [" + blueColor);
+		// System.out.print(analysisConstantValue);
+		// System.out.print(resetColor + "]");
 
 		System.out.print("\tPos-0 Value [" + blueColor);
 		System.out.print(pos0value);
