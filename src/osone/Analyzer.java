@@ -1,7 +1,7 @@
-package operatingsystemsassignment;
+package osone;
 
-import operatingsystemsassignment.ConsoleStyles;
-import operatingsystemsassignment.Settings;
+import osone.ConsoleStyles;
+import osone.Settings;
 import java.util.Queue;
 
 public class Analyzer extends Thread {

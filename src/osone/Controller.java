@@ -1,7 +1,7 @@
-package operatingsystemsassignment;
+package osone;
 
-import operatingsystemsassignment.ConsoleStyles;
-import operatingsystemsassignment.Settings;
+import osone.ConsoleStyles;
+import osone.Settings;
 
 import java.util.LinkedList;
 import java.util.Locale;
@@ -57,7 +57,7 @@ public class Controller {
 		System.out.print(pos0value);
 		System.out.print(resetColor + "]");
 
-		System.out.println("\n\nAdditional Info: [if you would like to change below values, please feel free to edit the src/Settings.java file]");
+		System.out.println("\n\nAdditional Info: [if you would like to change below values, please feel free to edit the {src/osone/Settings.java} file]");
 		System.out.print(infoColor + "\tSettings Queue Capacity[" + blueColor);
 		System.out.print(Settings.Parameters.queueCapacity);
 		System.out.print(infoColor + "]\n" + resetColor);

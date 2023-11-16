@@ -1,6 +1,6 @@
-package operatingsystemsassignment;
+package osone;
 
-import operatingsystemsassignment.ConsoleStyles;
+import osone.ConsoleStyles;
 import java.util.LinkedList;
 import java.util.Queue;
 
