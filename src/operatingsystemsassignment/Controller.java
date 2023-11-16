@@ -57,10 +57,14 @@ public class Controller {
 		System.out.print(pos0value);
 		System.out.print(resetColor + "]");
 
-		System.out.println("\n\nAdditional Info:");
-		System.out.print(infoColor + "\tSettings Capacity[" + blueColor);
+		System.out.println("\n\nAdditional Info: [if you would like to change below values, please feel free to edit the src/Settings.java file]");
+		System.out.print(infoColor + "\tSettings Queue Capacity[" + blueColor);
 		System.out.print(Settings.Parameters.queueCapacity);
-		System.out.print(infoColor + "]" + resetColor);
+		System.out.print(infoColor + "]\n" + resetColor);
+
+		System.out.print(infoColor + "\tSettings Sensors Count[" + blueColor);
+		System.out.print(Settings.Parameters.sensorsCount);
+		System.out.print(infoColor + "]\n" + resetColor);
 		
 		
 		System.out.println(greenColor + boldStyle + "\n\nStarting My Work...\n\n" + resetColor + resetColor);
