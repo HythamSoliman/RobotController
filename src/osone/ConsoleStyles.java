@@ -4,7 +4,8 @@ public class ConsoleStyles {
     public static final String resetBG = "\u001B[0m";
     public static final String redBG = "\u001B[41m";
     public static final String blackBG = "\u001B[40m";
-    public static final String yellowBG = "\u001B[43m";
+    public static final String infoBG = "\u001B[43m"; // yellowBG
+    public static final String errorBG = "\u001B[104m"; // lightBlueBG
 
     public static String infoColor = "\u001B[33;1m"; // darkYellowColor
     public static String errorColor = "\u001B[31m"; // redColor

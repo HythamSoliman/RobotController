@@ -25,18 +25,20 @@ public class Analyzer extends Thread {
 	}
 
 	public synchronized void consume() {
-		if (taskQueue.size() != 0) {            // condition checking if taskQueue is not empty 
-			Task task = taskQueue.poll();          // takes out the element at the front of the queue and returns it, assigning it as "task"
+		if (taskQueue.size() != 0) {            	// condition checking if taskQueue is not empty 
+			Task task = taskQueue.poll();          	// takes out the element at the front of the queue and returns it, assigning it as "task"
+			double taskComplexity = task.getTaskComplexity();
+			int taskSensorID = task.getTaskSensorID();
 			// creating the result, which takes the Id and c from the task
-			Result r = new Result(task.getTaskID(), task.getTaskComplexity(), Math.pow((1 - task.getTaskComplexity()), analysisConstant));
+			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Math.pow((1 - taskComplexity), analysisConstant));
 			if (actuateQueue.size() != capacity) {       // if actuateQueue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-				System.out.println(("** Task id [" + blueColor + (int)r.getID() + resetColor + "] analyzing ..."));
-				actuateQueue.add(r);   // add result to q2 
+				System.out.println(("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID [" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ..."));
+				actuateQueue.add(result);   // add result to q2 
 			}
 			try {
-				Thread.sleep((int)(task.getTaskComplexity())*100);
+				Thread.sleep(((int)taskComplexity)*100);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
@@ -47,27 +49,29 @@ public class Analyzer extends Thread {
 	}
 }
 
-class Result { 
-	public double id;
-	public double comp;
-	public double movedist;
+class Result {
+	public int sensorID;
+	public int taskID;
+	public double complexity;
+	public double moveDistance;
 	public double analysisConstant;
 	
-	public Result(double id, double comp, double movedist) {
-		this.id = id;
-		this.comp = comp;
-		this.movedist = movedist;
+	public Result(int sensorID, int taskID, double complexity, double moveDistance) {
+		this.sensorID = sensorID;
+		this.taskID = taskID;
+		this.complexity = complexity;
+		this.moveDistance = moveDistance;
 	}
-	public double getID() {
-		return this.id;
+	public int getResultSensorID() {
+		return this.sensorID;
 	}
-	public double getComp() {
-		return this.comp;
+	public int getResultTaskID() {
+		return this.taskID;
 	}
-	public double getMoveDist() {
-		return this.movedist;
+	public double getResultComplexity() {
+		return this.complexity;
 	}
-	public double getAnalysisConstant() {
-		return this.analysisConstant;
+	public double getResultMoveDist() {
+		return this.moveDistance;
 	}
 }
