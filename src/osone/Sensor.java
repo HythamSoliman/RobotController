@@ -1,5 +1,6 @@
 package osone;
 
+import osone.MyMath;
 import osone.ConsoleStyles;
 import osone.Settings;
 import java.util.Queue;
@@ -10,7 +11,7 @@ public class Sensor extends Thread {
 
 	private int queueCapacity = Settings.Parameters.queueCapacity;
 	private int sensorsCount = Settings.Parameters.sensorsCount;
-	private int taskid=0;
+	private int taskID = 0;
 
 	// sensor constructor
 	public Sensor(Queue<Task> taskQueue, int lambda) {
@@ -28,17 +29,7 @@ public class Sensor extends Thread {
 			generateTasks();
 		}
 	}
-	// poisson distribution equation
-	public int getPoisson(int lambda) {
-		double L = Math.exp(-lambda);
-		double p = 1.0;
-		int k = 0;
-		do {
-			k++;
-			p *= Math.random();
-		} while (p > L);
-		return k-1;
-	}
+	
 	// generateTasks method for sensor
 	public synchronized void generateTasks() {
 		String errorBG = ConsoleStyles.errorBG;
@@ -53,7 +44,7 @@ public class Sensor extends Thread {
 
 		for (int sensorIndex = 0; sensorIndex < sensorsCount; sensorIndex++) {
 			// generates number of tasks = poisson distribution
-			int tasksCount = getPoisson(lambda);
+			int tasksCount = MyMath.getPoisson(lambda);
 			if (tasksCount > queueCapacity) {
 				System.out.println(
 					errorBG
@@ -73,12 +64,12 @@ public class Sensor extends Thread {
 			// for loop that goes until the value generated from the poisson distribution
 			for (int taskIndex = 0; taskIndex < tasksCount; taskIndex++) {
 				if (taskQueue.size() < queueCapacity) { // condition to check if queue is not full
-					taskid++;             				// SR: increment task id to have a unique task id
+					taskID++;             				// SR: increment task id to have a unique task id
 					// taskComplexity = Math.random()/4;	// xxxxxxx remove this line which is for 2023 calculation
 					taskComplexity = 0.1 + Math.random() * 0.4; // compute value for taskComplexity
 
-					System.out.println(("** Sensor ID[" + blueColor + sensorIndex + resetColor + "] Task ID[" + blueColor + taskid + resetColor + "] Complexity:[" + blueColor + taskComplexity + resetColor + "]"));
-					Task task = new Task(sensorIndex, taskid, taskComplexity);	// create the tasks passing them their task id and taskComplexity
+					System.out.println(("** Sensor ID[" + blueColor + sensorIndex + resetColor + "] Task ID[" + blueColor + taskID + resetColor + "] Complexity:[" + blueColor + taskComplexity + resetColor + "]"));
+					Task task = new Task(sensorIndex, taskID, taskComplexity);	// create the tasks passing them their task id and taskComplexity
 					taskQueue.add(task);                // add task to the queue 
 				}
 			}
@@ -98,7 +89,7 @@ class Task {
 	private int taskID;
 	private double taskComplexity;
 
-	public Task(int sensorID, int taskID, double taskComplexity) {   // passing task ID and complexity
+	public Task(int sensorID, int taskID, double taskComplexity) {
 		this.sensorID = sensorID;
 		this.taskID = taskID;
 		this.taskComplexity = taskComplexity;

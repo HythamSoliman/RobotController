@@ -4,6 +4,17 @@ import osone.ConsoleStyles;
 import osone.Settings;
 
 public class MyMath {
+    // poisson distribution equation
+	static public int getPoisson(int lambda) {
+		double L = Math.exp(-lambda);
+		double p = 1.0;
+		int k = 0;
+		do {
+			k++;
+			p *= Math.random();
+		} while (p > L);
+		return k-1;
+	}
     static public double calculate_y (double taskComplexity) {
         String msgStyle = ConsoleStyles.greenColor + ConsoleStyles.blackBG;
         String resetStyle = ConsoleStyles.resetAll;

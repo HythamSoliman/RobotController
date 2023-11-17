@@ -2,84 +2,31 @@ package osone;
 
 import osone.ConsoleStyles;
 import osone.Settings;
+import osone.MyUi;
+import osone.MyUi.UserInput;
 
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Queue;
-import java.util.Scanner;
 
-public class Controller {	
-	// ANSI escape codes for used colors
-	static String infoColor = ConsoleStyles.infoColor;
-	static String errorColor = ConsoleStyles.errorColor;
-	static String greenColor = ConsoleStyles.greenColor;
-	static String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
-	static String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-	static String boldStyle = ConsoleStyles.boldStyle;
-	static String resetBold = ConsoleStyles.resetBold;
-	static String clearScreen = ConsoleStyles.clearScreen;
-
+public class Controller {
 	public static void main(String[] args) throws InterruptedException {
-		
-		System.out.print(clearScreen); // Clear the screen
+		String errorColor = ConsoleStyles.errorColor;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 
-	    Scanner lambda = new Scanner(System.in);                  // getting input for lambda from user 
-	    System.out.print(greenColor + "Enter a double value for lambda:\t\t\t\t\t" + resetColor);
-	    int lambdavalue = lambda.nextInt();
+		UserInput userInputValues = MyUi.dataEntry();
 
-	    
-	    // Scanner analysisConstant = new Scanner(System.in);                 // getting input from user for analysisconstant 
-	    // System.out.print(greenColor + "Enter a value for the analysis constant:\t\t\t\t" + resetColor);
-	    // int analysisConstantValue = analysisConstant.nextInt();
-		int analysisConstantValue = 10;
-	    
-	    Scanner pos0 = new Scanner(System.in);
-	    pos0.useLocale(Locale.UK);
-	    // getting input from user for initial position
-		System.out.print(greenColor + "Enter a starting position for the robot between ");
-        System.out.print(blueColor + "0" + resetColor);
-        System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
-		System.out.print(greenColor + ":\t\t" + resetColor);
-	    double pos0value = pos0.nextDouble();
-		if (pos0value > 1) {pos0value = 1;}
-		if (pos0value < 0) {pos0value = 0;}
-
-		// System.out.print(clearScreen); // Clear the screen
-		System.out.println("\n\nThank you for passing the values.");
-		System.out.print("\tlambda [" + blueColor);
-		System.out.print(lambdavalue);
-		System.out.print(resetColor + "]");
-
-		// System.out.print("\tConstant [" + blueColor);
-		// System.out.print(analysisConstantValue);
-		// System.out.print(resetColor + "]");
-
-		System.out.print("\tPos-0 Value [" + blueColor);
-		System.out.print(pos0value);
-		System.out.print(resetColor + "]");
-
-		System.out.println("\n\nAdditional Info: [if you would like to change below values, please feel free to edit the {src/osone/Settings.java} file]");
-		System.out.print(infoColor + "\tSettings Queue Capacity[" + blueColor);
-		System.out.print(Settings.Parameters.queueCapacity);
-		System.out.print(infoColor + "]\n" + resetColor);
-
-		System.out.print(infoColor + "\tSettings Sensors Count[" + blueColor);
-		System.out.print(Settings.Parameters.sensorsCount);
-		System.out.print(infoColor + "]\n" + resetColor);
-		
-		
-		System.out.println(greenColor + boldStyle + "\n\nStarting My Work...\n\n" + resetColor + resetColor);
-
-		Queue<Task> queue1 = new LinkedList<>();    // creating instances of the queues 
+		// creating instances of the queues 
+		Queue<Task> queue1 = new LinkedList<>();
 		Queue<Result> queue2 = new LinkedList<>();
 		
-		Object actuateAnalyzeConsumeLock = new Object();  // lock objects 
-		Object actuateAnalyzeProduceLock = new Object();
-		Actuator actuate = new Actuator(queue2, actuateAnalyzeProduceLock, actuateAnalyzeConsumeLock, pos0value);	// instance of actuator
-		Analyzer analyze = new Analyzer(queue1, queue2, analysisConstantValue);   // instance of analyzer
-		Sensor sense = new Sensor(queue1, lambdavalue);    // instance of sensor
+		Object actuateConsumeLock = new Object();
+		Object actuateProduceLock = new Object();
+		Sensor sense = new Sensor(queue1,  userInputValues.getLambdaValue());
+		Analyzer analyze = new Analyzer(queue1, queue2);   // instance of analyzer
+		Actuator actuate = new Actuator(queue2, actuateProduceLock, actuateConsumeLock, userInputValues.getPos0Value());
 		
-		Thread thread1 = new Thread(sense);      // creating the threads 
+		// SR: creating the main 3 stages / threads
+		Thread thread1 = new Thread(sense);
 		Thread thread2 = new Thread(analyze);
 		Thread thread3 = new Thread(actuate);
 
@@ -88,7 +35,7 @@ public class Controller {
 		thread3.start();
 
         try {
-        	Thread.sleep(5_000);
+        	Thread.sleep(Settings.Parameters.lifeTime);
         }
         catch(InterruptedException e) {
         	System.out.println(errorColor + "Interrupted all" + resetColor);

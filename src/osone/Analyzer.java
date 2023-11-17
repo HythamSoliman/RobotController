@@ -10,12 +10,10 @@ public class Analyzer extends Thread {
 	private Queue<Result> actuateQueue;
 	private int capacity = Settings.Parameters.queueCapacity;
 	private int currentpos = 0;
-	private int analysisConstant;
 
-	public Analyzer(Queue<Task> taskQueue, Queue<Result> actuateQueue, int analysisConstant) {   // analyzer constructor
+	public Analyzer(Queue<Task> taskQueue, Queue<Result> actuateQueue) {   // analyzer constructor
 		this.taskQueue = taskQueue;
 		this.actuateQueue = actuateQueue;
-		this.analysisConstant = analysisConstant;
 	}
 
 	// run method for analyzer
@@ -37,11 +35,13 @@ public class Analyzer extends Thread {
 			 
 			// SR: creating the result, which takes the Id and c from the task
 			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Y);
-			if (actuateQueue.size() < capacity) {       // if actuateQueue is not full
+
+			// if actuateQueue is not full
+			if (actuateQueue.size() < capacity) {
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 				System.out.println("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ...");
-				actuateQueue.add(result);   // add result to q2 
+				actuateQueue.add(result);   // add result to actuateQueue 
 			}
 			try {
 				Thread.sleep(((int)taskComplexity)*100);

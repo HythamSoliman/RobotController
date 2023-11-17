@@ -15,7 +15,13 @@ public class ConsoleStyles {
     public static String resetColor = "\u001B[0m";    // Black
     public static String boldStyle = "\u001B[1m";
     public static String resetBold = "\u001B[22m";    // Reset bold style
-    public static String clearScreen = "\u001B[2J\u001B[H"; // Clear screen
+
+    // not all command lines support blinking
+    static String blinkOn = "\u001B[5m";
+    static String blinkOff = "\u001B[25m";
     
-    public static final String resetAll = resetBG + resetColor + resetBold;
+    public static String clearScreen = "\u001B[2J\u001B[H"; // Clear screen
+    // public static String clearScreen = "\033[H\033[2J"; // Clear screen
+
+    public static final String resetAll = resetBG + resetColor + resetBold + blinkOff;
 }
