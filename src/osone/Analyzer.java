@@ -9,11 +9,20 @@ public class Analyzer extends Thread {
 	private Queue<Task> taskQueue;
 	private Queue<Result> actuateQueue;
 	private int capacity = Settings.Parameters.queueCapacity;
-	private int currentpos = 0;
+	private int resultCount;
+	private int resultErrorCount;
 
-	public Analyzer(Queue<Task> taskQueue, Queue<Result> actuateQueue) {   // analyzer constructor
+	public Analyzer(Queue<Task> taskQueue, Queue<Result> actuateQueue) {
 		this.taskQueue = taskQueue;
 		this.actuateQueue = actuateQueue;
+		this.resultCount = 0;
+		this.resultErrorCount = 0;
+	}
+	public int GetResultCount() {
+		return this.resultCount;
+	}
+	public int GetResultErrorCount() {
+		return this.resultErrorCount;
 	}
 
 	// run method for analyzer
@@ -31,17 +40,19 @@ public class Analyzer extends Thread {
 			Task task = taskQueue.poll();
 			int taskSensorID = task.getTaskSensorID();
 			double taskComplexity = task.getTaskComplexity();
-			double Y = MyMath.calculate_y(taskComplexity);
+			double Y = MyMath.CalculateY(taskComplexity);
 			 
 			// SR: creating the result, which takes the Id and c from the task
 			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Y);
 
 			// if actuateQueue is not full
 			if (actuateQueue.size() < capacity) {
-				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
-				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-				System.out.println("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ...");
-				actuateQueue.add(result);   // add result to actuateQueue 
+				MyUi.PrintedAnalyzerMsg(taskSensorID, result.getResultTaskID());
+				actuateQueue.add(result);   // add result to actuateQueue
+				resultCount++;
+			} else {
+				MyUi.PrintedAnalyzerCapacityCheck(taskSensorID, result.getResultTaskID());
+				resultErrorCount++;
 			}
 			try {
 				Thread.sleep(((int)taskComplexity)*100);
@@ -60,7 +71,6 @@ class Result {
 	private int taskID;
 	private double complexity;
 	private double moveDistance;
-	private double analysisConstant;
 	
 	public Result(int sensorID, int taskID, double complexity, double moveDistance) {
 		this.sensorID = sensorID;

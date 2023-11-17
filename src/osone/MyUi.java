@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class MyUi {
     static class UserInput {
-        int lambdaValue;
-        double pos0Value;
+        private int lambdaValue;
+        private double pos0Value;
 
         public UserInput(int lambdaValue, double pos0Value) {
             this.lambdaValue = lambdaValue;
@@ -29,7 +29,6 @@ public class MyUi {
        String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
        String boldStyle = ConsoleStyles.boldStyle;
        String resetBold = ConsoleStyles.resetBold;
-       String blinkOn = ConsoleStyles.blinkOn;
        String blinkOff = ConsoleStyles.blinkOff;
        String clearScreen = ConsoleStyles.clearScreen;
         
@@ -42,10 +41,10 @@ public class MyUi {
 	    Scanner pos0 = new Scanner(System.in);
 	    pos0.useLocale(Locale.UK);
 	    // getting input from user for initial position
-		System.out.print(blinkOn + greenColor + "Enter a starting position for the robot between ");
-        System.out.print(blinkOn + blueColor + "0" + resetColor);
-        System.out.print(blinkOn + greenColor + " and " + blueColor + "1" + resetColor);
-		System.out.print(blinkOn + greenColor + ":\t\t" + resetColor + blinkOff);
+		System.out.print(greenColor + "Enter a starting position for the robot between ");
+        System.out.print(blueColor + "0" + resetColor);
+        System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
+		System.out.print(greenColor + ":\t\t" + resetColor + blinkOff);
 	    double pos0Value = pos0.nextDouble();
 		if (pos0Value > 1) {pos0Value = 1;}
 		if (pos0Value < 0) {pos0Value = 0;}
@@ -69,7 +68,7 @@ public class MyUi {
 		System.out.print(Settings.Parameters.sensorsCount);
 		System.out.print(infoColor + "]\n" + resetColor);
 
-		System.out.print(infoColor + "\tlife time[" + blueColor);
+		System.out.print(infoColor + "\tThreads lifetime[" + blueColor);
 		System.out.print(Settings.Parameters.lifeTime);
 		System.out.print(infoColor + "]\n" + resetColor);
 		
@@ -77,7 +76,7 @@ public class MyUi {
         
         return new UserInput(lambdaValue, pos0Value);
 	}
-	static public void printedMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
+	static public void PrintActuateMoveMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
@@ -91,5 +90,60 @@ public class MyUi {
 			+ " old pos:[" + greenColor + CurPos + resetColor + "]"
 			+ " new pos:[" + greenColor + NewPos + resetColor + "]"
 		);
+	}
+	static public void PrintedSenseCapacityCheck(int tasksCount, int queueCapacity, int sensorIndex) {
+		String errorBG = ConsoleStyles.errorBG;
+		String infoBG = ConsoleStyles.infoBG;
+		String resetBG = ConsoleStyles.resetBG;
+		String boldStyle = ConsoleStyles.boldStyle;
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		String errorColor = ConsoleStyles.errorColor;
+		if (tasksCount > queueCapacity) {
+			System.out.println(
+				errorBG
+				+ boldStyle + errorColor + "Error: Sensor Queue is full !! Sensor[" + blueColor + sensorIndex + errorColor + "] !! tasks count[" + blueColor + tasksCount + errorColor + "]"
+				+ " Exceeds the Settings queueCapacity[" + blueColor + queueCapacity + errorColor + "]"
+				+ resetBG
+				+ resetColor
+			);
+		} else {
+			System.out.println(
+				infoBG
+				+ boldStyle + infoBG + "Info: Sensor Queue !! Sensor[" + blueColor + sensorIndex + infoBG + "] !! tasks count[" + blueColor + tasksCount + infoBG + "]"
+				+ resetBG
+				+ resetColor
+			);
+		}
+	}
+	static public void PrintedAnalyzerCapacityCheck(int sensorID, int taskID) {
+		String errorBG = ConsoleStyles.errorBG;
+		String resetBG = ConsoleStyles.resetBG;
+		String boldStyle = ConsoleStyles.boldStyle;
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.println(
+			errorBG
+			+ boldStyle + errorBG + "Error: Analyzer Queue !! Sensor[" + blueColor + sensorID + errorBG + "] !! for task[" + blueColor + taskID + errorBG + "] has no location at the queue"
+			+ resetBG
+			+ resetColor
+		);
+	}
+	static public void PrintedSenseNewTaskMsg(int sensorIndex, int taskID, double taskComplexity) {
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.println(("** Sensor ID[" + blueColor + sensorIndex + resetColor + "] Task ID[" + blueColor + taskID + resetColor + "] Complexity:[" + blueColor + taskComplexity + resetColor + "]"));
+	}
+	static public void PrintedComplexityErrorMsg(double taskComplexity) {
+		System.out.println(
+				ConsoleStyles.errorColor + ConsoleStyles.blackBG + "taskComplexity miss calculation: "
+				+ taskComplexity
+				+ ConsoleStyles.resetAll
+			);
+	}
+	static public void PrintedAnalyzerMsg(int taskSensorID, int taskID) {
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.println("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + taskID + resetColor + "] analyzing ...");
 	}
 }

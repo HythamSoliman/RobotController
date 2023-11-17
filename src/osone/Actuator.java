@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Actuator extends Thread {
-
 	private Queue<Result> actuateQueue = new LinkedList<>();
 	private Object produceLock;
 	private Object consumeLock;
@@ -16,6 +15,8 @@ public class Actuator extends Thread {
 	private double value;
 	private boolean movingRight = true;
 	private double pos0;
+	private int moveCount;
+	private int moveErrorCount;
 	
 	public void run() {
 		while (true) {
@@ -35,8 +36,15 @@ public class Actuator extends Thread {
 		this.produceLock = produceLock;
 		this.consumeLock = consumeLock;
 		this.pos0 = pos0;
+		this.moveCount = 0;
+		this.moveErrorCount = 0;
 	}
-	
+	public int GetMoveCount() {
+		return this.moveCount;
+	}
+	public int GetMoveErrorCount() {
+		return this.moveErrorCount;
+	}
     public double getPos0() {
     	return this.pos0;
     }
@@ -47,6 +55,7 @@ public class Actuator extends Thread {
 			synchronized (this.consumeLock) {
 				if (actuateQueue.size() != 0) {
 					Result analysisResult = actuateQueue.poll();
+					moveCount++;
 					// to set the initial position from user input as the first position of the robot
 					if (analysisResult.getResultTaskID() == 1) {
 						if (analysisResult.getResultMoveDistance() + pos0 <= 1) {
@@ -58,7 +67,7 @@ public class Actuator extends Thread {
 							newpos = value;
 							movingRight = false;
 						}
-						MyUi.printedMsg(
+						MyUi.PrintActuateMoveMsg(
 							analysisResult.getResultSensorID(),
 							analysisResult.getResultTaskID(),
 							analysisResult.getResultComplexity(),
@@ -90,7 +99,7 @@ public class Actuator extends Thread {
 								movingRight = true;
 							}
 						}
-						MyUi.printedMsg(
+						MyUi.PrintActuateMoveMsg(
 							analysisResult.getResultSensorID(),
 							analysisResult.getResultTaskID(),
 							analysisResult.getResultComplexity(),
