@@ -6,15 +6,15 @@ import java.util.Queue;
 
 public class Actuator extends Thread {
 
-	public Queue<Result> actuateQueue = new LinkedList<>();
+	private Queue<Result> actuateQueue = new LinkedList<>();
 	private Object produceLock;
 	private Object consumeLock;
-	public double currentpos;
-	public double newpos;
-	public double rem;
-	public double value;
-	public boolean movingRight = true;
-	public double pos0;
+	private double currentpos;
+	private double newpos;
+	private double rem;
+	private double value;
+	private boolean movingRight = true;
+	private double pos0;
 	
 	public void run(){
 		while (true) {
@@ -49,9 +49,9 @@ public class Actuator extends Thread {
 			+ greenColor + move_string
 			+ resetColor + " Sensor ID[" + blueColor + SensorId + resetColor + "]"
 			+ " Task ID[" + blueColor + TaskId + resetColor + "] Complexity[" + blueColor + Complexity + resetColor + "]"
-			+ " distance:[" + greenColor + Distance + resetColor + "]"
-			+ " old position:[" + greenColor + CurPos + resetColor + "]"
-			+ " new position:[" + greenColor + NewPos + resetColor + "]"
+			+ " Y:[" + greenColor + Distance + resetColor + "]"
+			+ " old pos:[" + greenColor + CurPos + resetColor + "]"
+			+ " new pos:[" + greenColor + NewPos + resetColor + "]"
 		);
 	}
 
@@ -63,27 +63,27 @@ public class Actuator extends Thread {
                 	Result analysisResult = actuateQueue.poll();
 					// to set the initial position from user input as the first position of the robot
 					if (analysisResult.getResultTaskID() == 1) {
-                		if (analysisResult.getResultMoveDist() + pos0 <= 1) {
-                    			value = analysisResult.getResultMoveDist() + pos0;
+                		if (analysisResult.getResultMoveDistance() + pos0 <= 1) {
+                    			value = analysisResult.getResultMoveDistance() + pos0;
                     			newpos = value;
 								printedMsg(
 									analysisResult.getResultSensorID(), 
 									analysisResult.getResultTaskID(),
 									analysisResult.getResultComplexity(),
-									analysisResult.getResultMoveDist(),
+									analysisResult.getResultMoveDistance(),
 									getPos0(),
 									newpos
 								);
                     			currentpos = newpos;
 						} else {
-							rem = -1 + (analysisResult.getResultMoveDist() + pos0);
+							rem = -1 + (analysisResult.getResultMoveDistance() + pos0);
 							value = 1 - rem;
 							newpos = value;
 							printedMsg(
 								analysisResult.getResultSensorID(),
 								analysisResult.getResultTaskID(),
 								analysisResult.getResultComplexity(),
-								analysisResult.getResultMoveDist(),
+								analysisResult.getResultMoveDistance(),
 								getPos0(),
 								newpos
 							);
@@ -93,23 +93,22 @@ public class Actuator extends Thread {
                 	} else {
 						if (movingRight == true)
 						{
-							if (analysisResult.getResultMoveDist() + currentpos <= 1) {
-								value = analysisResult.getResultMoveDist() + currentpos;
+							if (analysisResult.getResultMoveDistance() + currentpos <= 1) {
+								value = analysisResult.getResultMoveDistance() + currentpos;
 								newpos = value;
-								}
-							else  {
-								rem = -1 + (analysisResult.getResultMoveDist() + currentpos);
+							} else  {
+								rem = -1 + (analysisResult.getResultMoveDistance() + currentpos);
 								value = 1 - rem;
 								newpos = value;
 								movingRight = false;
 							}
 						} else {
-							if (currentpos - analysisResult.getResultMoveDist() >= 0) {
-								value =  currentpos - analysisResult.getResultMoveDist();
+							if (currentpos - analysisResult.getResultMoveDistance() >= 0) {
+								value =  currentpos - analysisResult.getResultMoveDistance();
 								newpos = value;
 							}
 							else  {
-								value = Math.abs(currentpos - analysisResult.getResultMoveDist());
+								value = Math.abs(currentpos - analysisResult.getResultMoveDistance());
 								newpos = value;
 								movingRight = true;
 							}
@@ -118,7 +117,7 @@ public class Actuator extends Thread {
 							analysisResult.getResultSensorID(),
 							analysisResult.getResultTaskID(),
 							analysisResult.getResultComplexity(),
-							analysisResult.getResultMoveDist(),
+							analysisResult.getResultMoveDistance(),
 							currentpos,
 							newpos
 						);

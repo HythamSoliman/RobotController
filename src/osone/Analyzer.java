@@ -1,5 +1,6 @@
 package osone;
 
+import osone.MyMath;
 import osone.ConsoleStyles;
 import osone.Settings;
 import java.util.Queue;
@@ -26,17 +27,20 @@ public class Analyzer extends Thread {
 	}
 
 	public synchronized void consume() {
-		if (taskQueue.size() != 0) {            	// condition checking if taskQueue is not empty 
-			Task task = taskQueue.poll();          	// takes out the element at the front of the queue and returns it, assigning it as "task"
-			double taskComplexity = task.getTaskComplexity();
+		// condition checking if taskQueue is not empty
+		if (taskQueue.size() != 0) {
+			// takes out the element at the front of the queue and returns it, assigning it as "task"
+			Task task = taskQueue.poll();
 			int taskSensorID = task.getTaskSensorID();
-			// creating the result, which takes the Id and c from the task
-			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Math.pow((1 - taskComplexity), analysisConstant));
-			// Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Math.sqrt(1 / taskComplexity));
-			if (actuateQueue.size() != capacity) {       // if actuateQueue is not full
+			double taskComplexity = task.getTaskComplexity();
+			double Y = MyMath.calculate_y(taskComplexity);
+			 
+			// SR: creating the result, which takes the Id and c from the task
+			Result result = new Result(taskSensorID, task.getTaskID(), taskComplexity, Y);
+			if (actuateQueue.size() < capacity) {       // if actuateQueue is not full
 				String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 				String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-				System.out.println(("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ..."));
+				System.out.println("** Sensor ID[" + blueColor + taskSensorID + resetColor + "] Task ID[" + blueColor + result.getResultTaskID() + resetColor + "] analyzing ...");
 				actuateQueue.add(result);   // add result to q2 
 			}
 			try {
@@ -52,11 +56,11 @@ public class Analyzer extends Thread {
 }
 
 class Result {
-	public int sensorID;
-	public int taskID;
-	public double complexity;
-	public double moveDistance;
-	public double analysisConstant;
+	private int sensorID;
+	private int taskID;
+	private double complexity;
+	private double moveDistance;
+	private double analysisConstant;
 	
 	public Result(int sensorID, int taskID, double complexity, double moveDistance) {
 		this.sensorID = sensorID;
@@ -73,7 +77,7 @@ class Result {
 	public double getResultComplexity() {
 		return this.complexity;
 	}
-	public double getResultMoveDist() {
+	public double getResultMoveDistance() {
 		return this.moveDistance;
 	}
 }
