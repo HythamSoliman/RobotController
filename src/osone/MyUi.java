@@ -77,4 +77,19 @@ public class MyUi {
         
         return new UserInput(lambdaValue, pos0Value);
 	}
+	static public void printedMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		String move_string =  "Robot moving.";
+		System.out.println(
+			resetColor + "** "
+			+ greenColor + move_string
+			+ resetColor + " Sensor ID[" + blueColor + SensorId + resetColor + "]"
+			+ " Task ID[" + blueColor + TaskId + resetColor + "] Complexity[" + blueColor + Complexity + resetColor + "]"
+			+ " Y:[" + greenColor + Distance + resetColor + "]"
+			+ " old pos:[" + greenColor + CurPos + resetColor + "]"
+			+ " new pos:[" + greenColor + NewPos + resetColor + "]"
+		);
+	}
 }

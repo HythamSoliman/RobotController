@@ -1,5 +1,6 @@
 package osone;
 
+import osone.MyUi;
 import osone.ConsoleStyles;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,7 +17,7 @@ public class Actuator extends Thread {
 	private boolean movingRight = true;
 	private double pos0;
 	
-	public void run(){
+	public void run() {
 		while (true) {
 			consume();
 			try {
@@ -39,60 +40,36 @@ public class Actuator extends Thread {
     public double getPos0() {
     	return this.pos0;
     }
-	public void printedMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
-		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
-		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
-		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-		String move_string =  "Robot moving.";
-		System.out.println(
-			resetColor + "** "
-			+ greenColor + move_string
-			+ resetColor + " Sensor ID[" + blueColor + SensorId + resetColor + "]"
-			+ " Task ID[" + blueColor + TaskId + resetColor + "] Complexity[" + blueColor + Complexity + resetColor + "]"
-			+ " Y:[" + greenColor + Distance + resetColor + "]"
-			+ " old pos:[" + greenColor + CurPos + resetColor + "]"
-			+ " new pos:[" + greenColor + NewPos + resetColor + "]"
-		);
-	}
 
 	// synchronized consume method 
 	public synchronized void consume() {
-        while (true) {
-            synchronized (this.consumeLock) {
-                if (actuateQueue.size() != 0) {
-                	Result analysisResult = actuateQueue.poll();
+		while (true) {
+			synchronized (this.consumeLock) {
+				if (actuateQueue.size() != 0) {
+					Result analysisResult = actuateQueue.poll();
 					// to set the initial position from user input as the first position of the robot
 					if (analysisResult.getResultTaskID() == 1) {
-                		if (analysisResult.getResultMoveDistance() + pos0 <= 1) {
-                    			value = analysisResult.getResultMoveDistance() + pos0;
-                    			newpos = value;
-								printedMsg(
-									analysisResult.getResultSensorID(), 
-									analysisResult.getResultTaskID(),
-									analysisResult.getResultComplexity(),
-									analysisResult.getResultMoveDistance(),
-									getPos0(),
-									newpos
-								);
-                    			currentpos = newpos;
+						if (analysisResult.getResultMoveDistance() + pos0 <= 1) {
+								value = analysisResult.getResultMoveDistance() + pos0;
+								newpos = value;
 						} else {
 							rem = -1 + (analysisResult.getResultMoveDistance() + pos0);
 							value = 1 - rem;
 							newpos = value;
-							printedMsg(
-								analysisResult.getResultSensorID(),
-								analysisResult.getResultTaskID(),
-								analysisResult.getResultComplexity(),
-								analysisResult.getResultMoveDistance(),
-								getPos0(),
-								newpos
-							);
-							currentpos = newpos;
 							movingRight = false;
-                		}
-                	} else {
-						if (movingRight == true)
-						{
+						}
+						MyUi.printedMsg(
+							analysisResult.getResultSensorID(),
+							analysisResult.getResultTaskID(),
+							analysisResult.getResultComplexity(),
+							analysisResult.getResultMoveDistance(),
+							getPos0(),
+							newpos
+						);
+						currentpos = newpos;
+
+					} else {
+						if (movingRight == true) {
 							if (analysisResult.getResultMoveDistance() + currentpos <= 1) {
 								value = analysisResult.getResultMoveDistance() + currentpos;
 								newpos = value;
@@ -113,7 +90,7 @@ public class Actuator extends Thread {
 								movingRight = true;
 							}
 						}
-						printedMsg(
+						MyUi.printedMsg(
 							analysisResult.getResultSensorID(),
 							analysisResult.getResultTaskID(),
 							analysisResult.getResultComplexity(),
@@ -121,14 +98,14 @@ public class Actuator extends Thread {
 							currentpos,
 							newpos
 						);
-						// updating the current position as the new one for the next one 
+						// updating the current position as the new one for the next move 
 						currentpos = newpos;
 					}
 				}
 				synchronized (this.produceLock) {
-		            produceLock.notifyAll();
-		        }
-        	}
-        }
-    }
+					produceLock.notifyAll();
+				}
+			}
+		}
+	}
 }
