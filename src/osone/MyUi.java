@@ -114,13 +114,18 @@ public class MyUi {
         
         return new UserInput(lambdaValue, pos0Value);
 	}
+	static void PrintMsgErrorSensorCount() {
+		String errorColor = ConsoleStyles.errorColor + ConsoleStyles.boldStyle;
+       	String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.print(errorColor + "Error: The system should use multiple sensors as per the CourseSheet. Change src/osone/Settings.java value of sensorsCount to be >= 2\n\n" + resetColor);
+	}
 	static void PrintLabelLambda() {
-		String greenColor = ConsoleStyles.greenColor;
+		String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
        	String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 		System.out.print(greenColor + "Enter a value for lambda (or press entre to use the default value 2):\t\t" + resetColor);
 	}
 	static void PrintLabelPos0() {
-       	String greenColor = ConsoleStyles.greenColor;
+       	String greenColor = ConsoleStyles.greenColor + ConsoleStyles.boldStyle;
        	String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
        	String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
 		System.out.print(greenColor + "Enter robot pos0 between ");

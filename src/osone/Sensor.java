@@ -20,6 +20,10 @@ public class Sensor extends Thread {
 		this.taskQueue = taskQueue;
 		// from user input
 		this.lambda = lambda;
+		if (sensorsCount < 2) {
+			MyUi.PrintMsgErrorSensorCount();
+			System.exit(0);
+		}
 	}
 	// get method for lambda from user input
 	public int GetLambda() {

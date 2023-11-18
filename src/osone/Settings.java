@@ -5,7 +5,7 @@ public class Settings {
         public static int queueCapacity = 10;
 
         // Specify how many sensors the system is going to handle (to achieve many, it should be more than 2)
-        public static int sensorsCount = 5;
+        public static int sensorsCount = 2;
 
         // The time in millisecons for the threads to execute thier tasks, it is controller by the main thread
         public static int lifeTime = 5_000;
