@@ -13,5 +13,5 @@ java -version
 
 
 
-javac -d target/ src/*java src/operatingsystemsassignment/*java
-cd target && java operatingsystemsassignment/Controller && cd ..
+javac -d target/ src/*java src/osone/*java
+cd target && java osone/Controller && cd ..
