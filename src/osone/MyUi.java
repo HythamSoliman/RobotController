@@ -81,13 +81,6 @@ public class MyUi {
 			}
 		}
 
-
-
-	    // double pos0Value = pos0.nextDouble();
-		// if (pos0Value > 1) {pos0Value = 1;}
-		// if (pos0Value < 0) {pos0Value = 0;}
-
-		// System.out.print(clearScreen); // Clear the screen
 		System.out.println("\n\nThank you for passing the values.");
 		System.out.print("\tlambda [" + blueColor);
 		System.out.print(lambdaValue);
@@ -148,7 +141,7 @@ public class MyUi {
 			+ " new pos:[" + greenColor + NewPos + resetColor + "]"
 		);
 	}
-	static public void PrintedSenseCapacityCheck(int tasksCount, int queueCapacity, int sensorIndex) {
+	static public void PrintedSenseCapacityCheck2(int tasksCount, int queueCapacity, int sensorIndex) {
 		String errorBG = ConsoleStyles.errorBG;
 		String infoBG = ConsoleStyles.infoBG;
 		String resetBG = ConsoleStyles.resetBG;
@@ -173,6 +166,24 @@ public class MyUi {
 			);
 		}
 	}
+	static public void PrintedSenseCapacityCheck(int tasksCount, int queueCapacity, int sensorIndex, int taskID, int totalErrors) {
+		String errorBG = ConsoleStyles.errorBG;
+		String resetBG = ConsoleStyles.resetBG;
+		String errorColor = ConsoleStyles.errorColor;
+		String boldStyle = ConsoleStyles.boldStyle;
+		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.println(
+			errorBG + boldStyle + errorColor
+			+ "Error: Sensor Queue is full !! Sensor[" + blueColor + sensorIndex + errorColor + "]"
+			+ " tasks count[" + blueColor + tasksCount + errorColor + "]"
+			+ " Exceeds the Settings queueCapacity[" + blueColor + queueCapacity + errorColor + "]"
+			+ " for taskID[" + taskID + "]"
+			+ " >> Total Errors is[" + totalErrors + "]"
+			+ resetBG
+			+ resetColor
+		);
+	}
 	static public void PrintedAnalyzerCapacityCheck(int sensorID, int taskID) {
 		String errorBG = ConsoleStyles.errorBG;
 		String resetBG = ConsoleStyles.resetBG;
@@ -189,7 +200,7 @@ public class MyUi {
 	static public void PrintedSenseNewTaskMsg(int sensorIndex, int taskID, double taskComplexity) {
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
 		String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
-		System.out.println(("** Sensor ID[" + blueColor + sensorIndex + resetColor + "] Task ID[" + blueColor + taskID + resetColor + "] Complexity:[" + blueColor + taskComplexity + resetColor + "]"));
+		System.out.println(("** Sensor ID[" + blueColor + sensorIndex + resetColor + "] Task ID[" + blueColor + taskID + resetColor + "] Complexity[" + blueColor + taskComplexity + resetColor + "] queuing ..."));
 	}
 	static public void PrintedComplexityErrorMsg(double taskComplexity) {
 		System.out.println(
