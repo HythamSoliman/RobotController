@@ -34,20 +34,58 @@ public class MyUi {
         
 		System.out.print(clearScreen); // Clear the screen
 
-	    Scanner lambda = new Scanner(System.in);                  // getting input for lambda from user 
-	    System.out.print(greenColor + "Enter a double value for lambda:\t\t\t\t\t" + resetColor);
-	    int lambdaValue = lambda.nextInt();
+	    Scanner lambda = new Scanner(System.in);                  // getting input for lambda from user
+		PrintLabelLambda();
+
+		// SR: Set the default value if the input is empty to 2
+		String lambdaInput = lambda.nextLine().trim();
+		int lambdaValue = 2;
+		if (lambdaInput.isEmpty()) {
+			System.out.print("\033[F"); // Move cursor up one line
+			PrintLabelLambda();
+			System.out.println("2" + resetColor);
+		}
+		else {
+			try {
+				lambdaValue = Integer.parseInt(lambdaInput);
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid input. Replace with default value of 2");
+			}
+		}
 
 	    Scanner pos0 = new Scanner(System.in);
 	    pos0.useLocale(Locale.UK);
 	    // getting input from user for initial position
-		System.out.print(greenColor + "Enter a starting position for the robot between ");
-        System.out.print(blueColor + "0" + resetColor);
-        System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
-		System.out.print(greenColor + ":\t\t" + resetColor + blinkOff);
-	    double pos0Value = pos0.nextDouble();
-		if (pos0Value > 1) {pos0Value = 1;}
-		if (pos0Value < 0) {pos0Value = 0;}
+		PrintLabelPos0();
+		
+		String pos0Input = pos0.nextLine().trim();
+		double pos0Value = 1;
+		if (pos0Input.isEmpty()) {
+			System.out.print("\033[F"); // Move cursor up one line
+			PrintLabelPos0();
+			System.out.println("1");
+		}
+		else {
+			try {
+				pos0Value = Double.parseDouble(pos0Input);
+				if (pos0Value > 1) {
+					System.out.println("Invalid input. Replace with default value of 1");
+					pos0Value = 1;
+				}
+				if (pos0Value < 0) {
+					System.out.println("Invalid input. Replace with default value of 0");
+					pos0Value = 0;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid input. Replace with default value of 1");
+			}
+		}
+
+
+
+	    // double pos0Value = pos0.nextDouble();
+		// if (pos0Value > 1) {pos0Value = 1;}
+		// if (pos0Value < 0) {pos0Value = 0;}
 
 		// System.out.print(clearScreen); // Clear the screen
 		System.out.println("\n\nThank you for passing the values.");
@@ -75,6 +113,20 @@ public class MyUi {
 		System.out.println(greenColor + boldStyle + "\n\nStarting My Work...\n\n" + resetColor + resetColor);
         
         return new UserInput(lambdaValue, pos0Value);
+	}
+	static void PrintLabelLambda() {
+		String greenColor = ConsoleStyles.greenColor;
+       	String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.print(greenColor + "Enter a value for lambda (or press entre to use the default value 2):\t\t" + resetColor);
+	}
+	static void PrintLabelPos0() {
+       	String greenColor = ConsoleStyles.greenColor;
+       	String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
+       	String resetColor = ConsoleStyles.resetColor + ConsoleStyles.resetBold;
+		System.out.print(greenColor + "Enter robot pos0 between ");
+        System.out.print(blueColor + "0" + resetColor);
+        System.out.print(greenColor + " and " + blueColor + "1" + resetColor);
+		System.out.print(greenColor + " (or press entre to use the default value 1):\t" + resetColor);
 	}
 	static public void PrintActuateMoveMsg(int SensorId, int TaskId, Double Complexity, Double Distance, Double CurPos, Double NewPos ) {
 		String blueColor = ConsoleStyles.blueColor + ConsoleStyles.boldStyle;
