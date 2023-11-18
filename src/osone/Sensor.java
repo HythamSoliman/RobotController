@@ -20,6 +20,10 @@ public class Sensor extends Thread {
 		this.taskQueue = taskQueue;
 		// from user input
 		this.lambda = lambda;
+		if (sensorsCount < 2) {
+			MyUi.PrintMsgErrorSensorCount();
+			System.exit(0);
+		}
 	}
 	// get method for lambda from user input
 	public int GetLambda() {
@@ -52,7 +56,6 @@ public class Sensor extends Thread {
 			while (tasksCount == 0) {
 				tasksCount = MyMath.GetPoisson(lambda);
 			}
-			MyUi.PrintedSenseCapacityCheck(tasksCount, queueCapacity, sensorIndex);
 			// for loop that goes until the value generated from the poisson distribution
 			for (int taskIndex = 0; taskIndex < tasksCount; taskIndex++) {
 				if (taskQueue.size() < queueCapacity) { // condition to check if queue is not full
@@ -63,6 +66,7 @@ public class Sensor extends Thread {
 					taskQueue.add(task);                // add task to the queue 
 				} else {
 					tasksErrorCount++;
+					MyUi.PrintedSenseCapacityCheck(tasksCount, queueCapacity, sensorIndex, taskIndex, GetTaskErrorCount());
 				}
 			}
 		}
